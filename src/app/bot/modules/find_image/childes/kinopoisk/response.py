@@ -3,11 +3,22 @@ from pathlib import Path
 
 from app.app_utils.module_loader.loader import get_child_modules_settings_inline_data
 from app.app_utils.keyboards import get_total_buttons_inline_kb
+from app.bot.core.paths import bot_path
 
 
 inline_data = get_child_modules_settings_inline_data(
-    module_path=Path("D:/ProgrammingProjects/Python/Bot/Project/BOT_PROJECT/func_store_botV1.4/src/app/bot/modules/find_image/childes/kinopoisk/childes"),
-    root_package="app.bot.modules.find_image.childes.kinopoisk.childes"
+    module_path=bot_path.BOT_DIR
+    / "modules"
+    / Path("find_image/childes/find_name_image/childes"),
+    root_package="app.bot.modules.find_image.childes.find_name_image.childes",
+)
+
+
+inline_data = get_child_modules_settings_inline_data(
+    module_path=bot_path.BOT_DIR
+    / "modules"
+    / Path("find_image/childes/kinopoisk/childes"),
+    root_package="app.bot.modules.find_image.childes.kinopoisk.childes",
 )
 
 get_keyboards_menu_buttons = get_total_buttons_inline_kb(

@@ -1,7 +1,7 @@
 from typing import Union
 from pathlib import Path
-import asyncio
 
+import aiogram
 from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove, FSInputFile
 from aiogram.filters.state import StateFilter
@@ -19,6 +19,7 @@ from app.bot.modules.weather_forecast.childes.weather_map.services.weather_map i
 )
 from app.core.response import NetworkResponseData, ResponseData
 from app.bot.core.paths import bot_path
+from app.app_utils.filesistem import save_delete_data
 
 
 router: Router = Router(name=__name__)
@@ -92,13 +93,18 @@ async def weather_map(
         await bot.send_document(
             chat_id=chat_id,
             document=FSInputFile(
-                path=result_weather_map.message,
+                path=str(result_weather_map.message),
             ),
             caption="🌈 Карта Погоды",
+            request_timeout=180,
         )
         await call.message.answer(
             text=messages.START_BOT_MESSAGE,
             reply_markup=get_main_keyboards,
+        )
+        await save_delete_data(
+            list_path=[result_weather_map.message],
+            warning_logger=logging_data.warning_logger,
         )
     else:
         await call.message.answer(

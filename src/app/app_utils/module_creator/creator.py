@@ -84,10 +84,11 @@ from pathlib import Path
 
 from app.app_utils.module_loader.loader import get_child_modules_settings_inline_data
 from app.app_utils.keyboards import get_total_buttons_inline_kb
+from app.bot.core.paths import bot_path
 
 
 inline_data = get_child_modules_settings_inline_data(
-    module_path=Path("{path_to_module}"),
+    module_path=bot_path.BOT_DIR / "modules" / Path("{path_to_module}"),
     root_package="{root_childes}"
 )
 
@@ -240,14 +241,6 @@ def create_module(
                         content = content.replace(
                             "{root_router_name}", current_name_with_point.split(".")[0]
                         )
-
-                        # для получения инлайн клавиатуры для модуля
-                        # используем текущий путь с добавлнеием childes - bot/modules/audio/childes
-                        path_to_module = str(current_path / "childes").replace(
-                            "\\", "/"
-                        )
-                        content = content.replace("{path_to_module}", path_to_module)
-
                         # Корневой путь для инлайн клавиатуры с добавлением childes
                         root_childes = (
                             f"{root_package}.{current_name_with_point}.childes"
@@ -255,6 +248,12 @@ def create_module(
                         content = content.replace(
                             "{root_childes}", root_childes
                         )  # app.bot.modules.audio.childes
+
+                        # для получения инлайн клавиатуры для модуля
+                        # используем текущий путь с добавлнеием childes - bot/modules/audio/childes
+                        path_to_module = Path(str(current_name).replace("\\", "/")) / "childes"
+                        content = content.replace("{path_to_module}", str(path_to_module))
+
 
                         # корневой путь для импортя модулей в настройках
                         rpg = f"{root_package}.{current_name_with_point}"
