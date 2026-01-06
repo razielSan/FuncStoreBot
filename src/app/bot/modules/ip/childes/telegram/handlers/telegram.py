@@ -1,18 +1,17 @@
-from aiogram import Router, F
+from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery
 from aiogram.filters.state import StateFilter
 
 from app.bot.modules.ip.childes.telegram.settings import settings
 from app.bot.modules.ip.childes.telegram.api.telegram import telegram_api
+from app.settings.response import messages
 
 
 router: Router = Router(name=__name__)
 
 
 @router.callback_query(StateFilter(None), F.data == settings.MENU_CALLBACK_DATA)
-async def kinopoisk(
-    call: CallbackQuery,
-) -> None:
+async def kinopoisk(call: CallbackQuery, bot: Bot, get_main_keyboards) -> None:
     """Выводит информацию о API ID Telegram пользователя."""
 
     await call.message.edit_reply_markup(reply_markup=None)
@@ -26,4 +25,10 @@ async def kinopoisk(
     await call.message.answer(
         text=api_id_telegam.message,
         parse_mode="HTML",
+    )
+
+    await bot.send_message(
+        chat_id=call.message.chat.id,
+        reply_markup=get_main_keyboards,
+        text=messages.START_BOT_MESSAGE,
     )
