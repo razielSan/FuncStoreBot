@@ -154,10 +154,11 @@ async def get_search_result_video(
         await state.clear()
         await message.answer(
             text=f"{telegam_emogi.yellow_triangle_with_exclamation_mark}"
-            " Указанный api key не был найденн"
+            " Указанный api key, для youtube, не был найден"
         )
         await bot.send_message(
-            text=messages.START_BOT_MESSAGE, reply_markup=get_main_keyboards
+            text=messages.START_BOT_MESSAGE, reply_markup=get_main_keyboards,
+            chat_id=message.chat.id,
         )
         return
 
