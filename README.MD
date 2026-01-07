@@ -59,6 +59,8 @@ venv\Scripts\activate         # Windows<br></pre>
 
 ### 4. Установка зависимостей 
 
+Из корневой директории
+
 bash
 
 <pre>pip install -e .[dev]</pre>
