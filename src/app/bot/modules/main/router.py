@@ -58,3 +58,4 @@ async def main(
         text=messages.START_BOT_MESSAGE,
         reply_markup=get_main_keyboards,
     )
+ф

@@ -5,6 +5,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters.state import StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
+import google
 
 from app.bot.modules.youtube.childes.search.settings import settings
 from app.bot.modules.youtube.childes.search.logging import get_log
@@ -14,7 +15,7 @@ from app.bot.modules.youtube.childes.search.services.search import (
 from app.bot.modules.youtube.childes.search.keyboards.inline_kb import (
     get_buttons_search_inline_kb,
 )
-from app.settings.response import messages
+from app.settings.response import messages, telegam_emogi
 from app.core.response import NetworkResponseData
 from app.app_utils.keyboards import (
     get_reply_cancel_button,
@@ -147,7 +148,18 @@ async def get_search_result_video(
 
     logging_data = get_log()
 
-    service = get_service(api_key=settings.API_KEY)
+    try:
+        service = get_service(api_key=settings.API_KEY)
+    except google.auth.exceptions.DefaultCredentialsError:
+        await state.clear()
+        await message.answer(
+            text=f"{telegam_emogi.yellow_triangle_with_exclamation_mark}"
+            " Указанный api key не был найденн"
+        )
+        await bot.send_message(
+            text=messages.START_BOT_MESSAGE, reply_markup=get_main_keyboards
+        )
+        return
 
     youtube_video: NetworkResponseData = await search_youtube_service.recieve(
         name_video=message.text,
