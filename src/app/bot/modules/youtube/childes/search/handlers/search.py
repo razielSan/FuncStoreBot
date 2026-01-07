@@ -158,10 +158,12 @@ async def get_search_result_video(
         service = get_service(api_key=settings.API_KEY)
     except google.auth.exceptions.DefaultCredentialsError:
         await state.clear()
-        await message.answer(
-            text=f"{telegam_emogi.yellow_triangle_with_exclamation_mark}"
-            " Указанный api key, для youtube, не был найден"
+
+        logging_data.warning_logger.exception(
+            msg=f"[ERROR] {settings.API_KEY} для youtube не был наден"
         )
+
+        await message.answer(text=messages.SERVER_ERROR)
         await bot.send_message(
             text=messages.START_BOT_MESSAGE,
             reply_markup=get_main_keyboards,
