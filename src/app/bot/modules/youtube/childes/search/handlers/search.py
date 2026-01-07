@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from aiogram import Router, F, Bot
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.filters.state import StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
@@ -143,6 +143,12 @@ async def get_search_result_video(
     """
     await state.set_state(FSMYoutubeSearch.spam)
 
+    await bot.send_message(
+        chat_id=message.chat.id,
+        text=messages.WAIT_MESSAGE,
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
     data: Dict = await state.get_data()
     sort: str = data["choise_sort"]
 
@@ -157,7 +163,8 @@ async def get_search_result_video(
             " Указанный api key, для youtube, не был найден"
         )
         await bot.send_message(
-            text=messages.START_BOT_MESSAGE, reply_markup=get_main_keyboards,
+            text=messages.START_BOT_MESSAGE,
+            reply_markup=get_main_keyboards,
             chat_id=message.chat.id,
         )
         return
@@ -174,6 +181,11 @@ async def get_search_result_video(
 
         await state.set_state(FSMYoutubeSearch.list_result_video)
         await state.update_data(list_result_video=youtube_video.message)
+        await bot.send_message(
+            chat_id=message.chat.id,
+            text=messages.RESULT_RESPONSE,
+            reply_markup=get_reply_cancel_button(),
+        )
         await message.answer(
             text=youtube_video.message[0],
             reply_markup=get_button_for_forward_or_back(
