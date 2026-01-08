@@ -110,7 +110,7 @@ def get_log() -> LoggingData:
         logging_data=logging_data,
     )
     """,
-    "extensions.py": "# Plug-in extensions are below"
+    "extensions.py": "# Plug-in extensions are below",
 }
 
 TEMPLATATE_DIRS: List[str] = [
@@ -133,7 +133,7 @@ def create_module(
     Создает модуль и все вложенные модули
 
     Архитектура модуля:
-    
+
     api/
     fsm/
     services/
@@ -251,9 +251,12 @@ def create_module(
 
                         # для получения инлайн клавиатуры для модуля
                         # используем текущий путь с добавлнеием childes - bot/modules/audio/childes
-                        path_to_module = Path(str(current_name).replace("\\", "/")) / "childes"
-                        content = content.replace("{path_to_module}", str(path_to_module))
 
+                        curr_name = str(current_name).replace("\\", "/")
+                        path_to_module = f"{curr_name}/childes"
+                        content = content.replace(
+                            "{path_to_module}", str(path_to_module)
+                        )
 
                         # корневой путь для импортя модулей в настройках
                         rpg = f"{root_package}.{current_name_with_point}"
@@ -303,10 +306,10 @@ def creates_new_modules_via_the_command_line(
 
     args:
         list_path_modules(List[str]): Список из имен путей модулей
-        
+
         Пример
         ['video/childes/main', "audio"]
-        
+
         module_path (Path):  Путь до папки с модулями
         root_package (str): Путь для импорта, начинается с корневой директории
 
