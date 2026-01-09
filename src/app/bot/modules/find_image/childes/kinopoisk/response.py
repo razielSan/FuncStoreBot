@@ -9,14 +9,6 @@ from app.bot.core.paths import bot_path
 inline_data = get_child_modules_settings_inline_data(
     module_path=bot_path.BOT_DIR
     / "modules"
-    / Path("find_image/childes/find_name_image/childes"),
-    root_package="app.bot.modules.find_image.childes.find_name_image.childes",
-)
-
-
-inline_data = get_child_modules_settings_inline_data(
-    module_path=bot_path.BOT_DIR
-    / "modules"
     / Path("find_image/childes/kinopoisk/childes"),
     root_package="app.bot.modules.find_image.childes.kinopoisk.childes",
 )
