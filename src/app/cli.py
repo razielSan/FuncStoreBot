@@ -74,4 +74,4 @@ cli remove-module <путь> - Удаление модуля
 """
         )
     else:
-        print("Неизвестная команда\n\npython manage.py help - Основные команды")
+        print("Неизвестная команда\n\ncli help - Основные команды")
