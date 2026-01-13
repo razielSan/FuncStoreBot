@@ -22,7 +22,7 @@ def main() -> None:
 
     if len(list_sys_argv) < 2:
         print(
-            "Использование:\n\npython manage.py add-module <путь>\npython manage.py remove-module <путь>"
+            "Использование:\n\ncli add-module <путь> <путь> - Создание модулей\ncli remove-module <путь> - Удаление модуля"
         )
         sys.exit()
 
@@ -46,8 +46,8 @@ def main() -> None:
         if len(list_sys_argv) < 3:
             print(
                 "Укажите путь до модуля.Дочерний модуль должен быть "
-                "разделен 'childes'\ncli add-module <путь>"
-                "\ncli add-module test/childes/data"
+                "разделен 'childes'\ncli remove-module <путь>"
+                "\ncli remove-module test/childes/data"
             )
             exit()
         elif len(list_sys_argv) >= 4:
